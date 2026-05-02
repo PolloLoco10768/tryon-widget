@@ -33,6 +33,36 @@
   }
 
   function trackEvent(eventName, data = {}) {
+  const analytics = getAnalytics();
+
+  if (analytics[eventName] !== undefined) {
+    analytics[eventName] += 1;
+  }
+
+  analytics.events.push({
+    event: eventName,
+    brand: brandName,
+    data,
+    time: new Date().toISOString(),
+  });
+
+  localStorage.setItem(ANALYTICS_KEY, JSON.stringify(analytics));
+
+  // 🔥 SEND TO YOUR BACKEND (THIS IS THE KEY PART)
+  fetch("/api/analytics", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      event: eventName,
+      brand: brandName,
+      data,
+    }),
+  }).catch(() => {});
+
+  console.log("TRY-ON ANALYTICS:", eventName, data);
+}
     const analytics = getAnalytics();
 
     if (analytics[eventName] !== undefined) {
