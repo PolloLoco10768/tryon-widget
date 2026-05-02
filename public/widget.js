@@ -33,36 +33,6 @@
   }
 
   function trackEvent(eventName, data = {}) {
-  const analytics = getAnalytics();
-
-  if (analytics[eventName] !== undefined) {
-    analytics[eventName] += 1;
-  }
-
-  analytics.events.push({
-    event: eventName,
-    brand: brandName,
-    data,
-    time: new Date().toISOString(),
-  });
-
-  localStorage.setItem(ANALYTICS_KEY, JSON.stringify(analytics));
-
-  // 🔥 SEND TO YOUR BACKEND (THIS IS THE KEY PART)
-  fetch("/api/analytics", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      event: eventName,
-      brand: brandName,
-      data,
-    }),
-  }).catch(() => {});
-
-  console.log("TRY-ON ANALYTICS:", eventName, data);
-}
     const analytics = getAnalytics();
 
     if (analytics[eventName] !== undefined) {
@@ -78,6 +48,18 @@
 
     localStorage.setItem(ANALYTICS_KEY, JSON.stringify(analytics));
 
+    fetch("/api/analytics", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        event: eventName,
+        brand: brandName,
+        data,
+      }),
+    }).catch(() => {});
+
     console.log("TRY-ON ANALYTICS:", eventName, data);
   }
 
@@ -91,6 +73,7 @@
 
   const launcher = document.createElement("button");
   launcher.innerText = `${launcherText} (0)`;
+
   Object.assign(launcher.style, {
     position: "fixed",
     bottom: "20px",
@@ -259,9 +242,7 @@
   }
 
   function resetStoreSaveButton(itemName) {
-    const buttons = document.querySelectorAll("[data-tryon-action='save'], .save-btn");
-
-    buttons.forEach(function (button) {
+    document.querySelectorAll("[data-tryon-action='save'], .save-btn").forEach(function (button) {
       const productName = button.dataset.productName || button.dataset.name;
       if (productName === itemName) {
         button.innerText = "Save for Later";
@@ -282,7 +263,6 @@
 
   function applyOverlayControls() {
     if (!clothingOverlay) return;
-
     clothingOverlay.style.width = `${sizeSlider.value}%`;
     clothingOverlay.style.top = `${topSlider.value}%`;
     clothingOverlay.style.left = `${leftSlider.value}%`;
@@ -325,10 +305,7 @@
 
     savedItems.forEach(function (item, index) {
       const wrapper = document.createElement("div");
-      Object.assign(wrapper.style, {
-        position: "relative",
-        width: "96px",
-      });
+      Object.assign(wrapper.style, { position: "relative", width: "96px" });
 
       const itemBtn = document.createElement("button");
       Object.assign(itemBtn.style, {
