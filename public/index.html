@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Try-On Widget</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      color: #111;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 20px 40px;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .hero {
+      padding: 80px 30px;
+      text-align: center;
+      background: white;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #666;
+      font-size: 18px;
+    }
+
+    .cta {
+      margin-top: 25px;
+    }
+
+    .cta a {
+      background: #111;
+      color: white;
+      padding: 14px 22px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .section {
+      padding: 60px 30px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    code {
+      background: #eee;
+      padding: 8px;
+      display: block;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .pricing {
+      display: grid;
+      gap: 20px;
+    }
+
+    .price-box {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      text-align: center;
+    }
+
+    .price {
+      font-size: 32px;
+      font-weight: 800;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>Try-On Widget</header>
+
+<section class="hero">
+  <h1>Let Customers Try Clothes Before Buying</h1>
+  <p>Add virtual try-on to your store in minutes.</p>
+
+  <div class="cta">
+    <a href="/test.html">View Demo</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="card">
+    <h2>How It Works</h2>
+    <p>1. Add our script to your site</p>
+    <p>2. Add Try-On buttons to your products</p>
+    <p>3. Customers preview outfits instantly</p>
+  </div>
+
+  <div class="card">
+    <h2>Install Guide</h2>
+
+    <p><b>Step 1 — Add script</b></p>
+    <code>
+&lt;script src="https://your-site.com/widget.js"&gt;&lt;/script&gt;
+    </code>
+
+    <p><b>Step 2 — Add product button</b></p>
+    <code>
+&lt;button
+data-tryon-action="try"
+data-product-name="Black Hoodie"
+data-product-image="https://yourimage.jpg"&gt;
+Try It On
+&lt;/button&gt;
+    </code>
+
+  </div>
+</section>
+
+<section class="section pricing">
+  <div class="price-box">
+    <h3>Starter</h3>
+    <div class="price">$29/mo</div>
+    <p>Basic try-on widget</p>
+  </div>
+
+  <div class="price-box">
+    <h3>Pro</h3>
+    <div class="price">$79/mo</div>
+    <p>Auto-fit + customization</p>
+  </div>
+
+  <div class="price-box">
+    <h3>Enterprise</h3>
+    <div class="price">Custom</div>
+    <p>Full AI integration + support</p>
+  </div>
+</section>
+
+</body>
+</html>
