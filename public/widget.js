@@ -11,9 +11,56 @@
   const primaryColor = currentScript?.dataset.primaryColor || "#111";
   const launcherText = currentScript?.dataset.launcherText || "Try-On Closet";
 
+  const ANALYTICS_KEY = "tryon_widget_analytics";
+
+  function getAnalytics() {
+    const saved = localStorage.getItem(ANALYTICS_KEY);
+    return saved
+      ? JSON.parse(saved)
+      : {
+          closet_opens: 0,
+          try_on_clicks: 0,
+          save_for_later_clicks: 0,
+          photo_uploads: 0,
+          camera_opens: 0,
+          photos_taken: 0,
+          previews_generated: 0,
+          looks_saved: 0,
+          selected_items_removed: 0,
+          saved_items_removed: 0,
+          events: [],
+        };
+  }
+
+  function trackEvent(eventName, data = {}) {
+    const analytics = getAnalytics();
+
+    if (analytics[eventName] !== undefined) {
+      analytics[eventName] += 1;
+    }
+
+    analytics.events.push({
+      event: eventName,
+      brand: brandName,
+      data,
+      time: new Date().toISOString(),
+    });
+
+    localStorage.setItem(ANALYTICS_KEY, JSON.stringify(analytics));
+
+    console.log("TRY-ON ANALYTICS:", eventName, data);
+  }
+
+  window.TryOnAnalytics = {
+    getStats: getAnalytics,
+    clearStats: function () {
+      localStorage.removeItem(ANALYTICS_KEY);
+      console.log("Try-on analytics cleared.");
+    },
+  };
+
   const launcher = document.createElement("button");
   launcher.innerText = `${launcherText} (0)`;
-
   Object.assign(launcher.style, {
     position: "fixed",
     bottom: "20px",
@@ -199,6 +246,7 @@
     selectedItemName.innerText = item.name;
     resultBox.style.display = "none";
     statusText.innerText = `${item.name} selected. Add your photo.`;
+    trackEvent("try_on_clicks", item);
     openPopup();
   }
 
@@ -305,6 +353,7 @@
 
         updateSavedList();
         statusText.innerText = "Saved item removed.";
+        trackEvent("saved_items_removed", removedItem);
         closeOnlyIfEmptyAfterRemoval();
       };
 
@@ -328,20 +377,27 @@
       savedItems.push(item);
       updateSavedList();
       if (sourceButton) sourceButton.innerText = "Saved ✓";
+      trackEvent("save_for_later_clicks", item);
     }
   }
 
   removeItemBtn.onclick = function () {
+    const removed = selectedClothing;
     selectedClothing = null;
     selectedItemBox.style.display = "none";
     resultBox.style.display = "none";
     statusText.innerText = "Item removed.";
+    trackEvent("selected_items_removed", removed || {});
     closeOnlyIfEmptyAfterRemoval();
   };
 
   launcher.onclick = function () {
     popup.style.display = popup.style.display === "none" ? "block" : "none";
     updateSavedList();
+
+    if (popup.style.display === "block") {
+      trackEvent("closet_opens");
+    }
   };
 
   document.addEventListener("click", function (event) {
@@ -374,6 +430,7 @@
       selectedImage = reader.result;
       resultBox.style.display = "none";
       statusText.innerText = "Photo selected. Ready to generate.";
+      trackEvent("photo_uploads");
     };
 
     reader.readAsDataURL(file);
@@ -387,6 +444,7 @@
     captureBtn.style.display = "block";
     timerBtn.style.display = "block";
     statusText.innerText = "Camera ready. Take a photo.";
+    trackEvent("camera_opens");
   };
 
   captureBtn.onclick = function () {
@@ -399,6 +457,7 @@
     selectedImage = canvas.toDataURL("image/png");
     resultBox.style.display = "none";
     statusText.innerText = "Photo captured. Ready to generate.";
+    trackEvent("photos_taken");
   };
 
   timerBtn.onclick = function () {
@@ -470,6 +529,7 @@
       statusText.innerText = "Preview ready. Adjust if needed.";
       generateBtn.innerText = "Generate Try-On Preview";
       generateBtn.disabled = false;
+      trackEvent("previews_generated", selectedClothing);
     }, 1000);
   };
 
@@ -481,5 +541,6 @@
 
   saveLookBtn.onclick = function () {
     statusText.innerText = "Look saved for later.";
+    trackEvent("looks_saved", selectedClothing || {});
   };
 })();
