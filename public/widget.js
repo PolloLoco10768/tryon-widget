@@ -234,6 +234,17 @@
     }
   }
 
+  function resetPreviewImage() {
+    resultBox.style.display = "none";
+
+    if (clothingOverlay) {
+      clothingOverlay.remove();
+      clothingOverlay = null;
+    }
+
+    resultPersonImage.src = "";
+  }
+
   function getProductFromButton(button) {
     return {
       name: button.dataset.productName || button.dataset.name || "Product",
@@ -255,7 +266,7 @@
     selectedItemBox.style.display = "block";
     selectedItemImage.src = item.image;
     selectedItemName.innerText = item.name;
-    resultBox.style.display = "none";
+    resetPreviewImage();
     statusText.innerText = `${item.name} selected. Add your photo.`;
     trackEvent("try_on_clicks", item);
     openPopup();
@@ -355,7 +366,7 @@
         if (selectedClothing && selectedClothing.name === removedItem.name) {
           selectedClothing = null;
           selectedItemBox.style.display = "none";
-          resultBox.style.display = "none";
+          resetPreviewImage();
         }
 
         updateSavedList();
@@ -392,7 +403,7 @@
     const removed = selectedClothing;
     selectedClothing = null;
     selectedItemBox.style.display = "none";
-    resultBox.style.display = "none";
+    resetPreviewImage();
     statusText.innerText = "Item removed.";
     trackEvent("selected_items_removed", removed || {});
     closeOnlyIfEmptyAfterRemoval();
@@ -433,10 +444,11 @@
     if (!file) return;
 
     const reader = new FileReader();
+
     reader.onload = function () {
       selectedImage = reader.result;
-      resultBox.style.display = "none";
-      statusText.innerText = "Photo selected. Ready to generate.";
+      resetPreviewImage();
+      statusText.innerText = "Photo uploaded. Ready to generate.";
       trackEvent("photo_uploads");
     };
 
@@ -462,7 +474,10 @@
     ctx.drawImage(video, 0, 0);
 
     selectedImage = canvas.toDataURL("image/png");
-    resultBox.style.display = "none";
+
+    fileInput.value = "";
+    resetPreviewImage();
+
     statusText.innerText = "Photo captured. Ready to generate.";
     trackEvent("photos_taken");
   };
@@ -507,22 +522,24 @@
       resultPersonImage.src = selectedImage;
       resultBox.style.display = "block";
 
-      if (!clothingOverlay) {
-        clothingOverlay = document.createElement("img");
-        clothingOverlay.id = "clothingOverlay";
-        Object.assign(clothingOverlay.style, {
-          position: "absolute",
-          left: "50%",
-          transform: "translate(-50%, -50%) skewX(-3deg)",
-          pointerEvents: "none",
-          zIndex: "5",
-          mixBlendMode: "multiply",
-          filter: "drop-shadow(0 10px 18px rgba(0,0,0,0.30))",
-        });
-
-        resultImageWrap.appendChild(clothingOverlay);
+      if (clothingOverlay) {
+        clothingOverlay.remove();
+        clothingOverlay = null;
       }
 
+      clothingOverlay = document.createElement("img");
+      clothingOverlay.id = "clothingOverlay";
+      Object.assign(clothingOverlay.style, {
+        position: "absolute",
+        left: "50%",
+        transform: "translate(-50%, -50%) skewX(-3deg)",
+        pointerEvents: "none",
+        zIndex: "5",
+        mixBlendMode: "multiply",
+        filter: "drop-shadow(0 10px 18px rgba(0,0,0,0.30))",
+      });
+
+      resultImageWrap.appendChild(clothingOverlay);
       clothingOverlay.src = selectedClothing.image;
 
       resultPersonImage.onload = function () {
