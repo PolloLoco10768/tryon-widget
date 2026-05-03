@@ -6,122 +6,166 @@ export default function Dashboard() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchData = async () => {
-    try {
-      const res = await fetch("/api/analytics");
-      const json = await res.json();
-      setData(json);
-    } catch (err) {
-      console.error("Error fetching analytics:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  async function loadData() {
+    setLoading(true);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+    const res = await fetch("/api/analytics");
+    const json = await res.json();
 
-  if (loading) {
-    return (
-      <div style={{ padding: "40px", color: "white" }}>
-        Loading analytics...
-      </div>
-    );
+    setData(json);
+    setLoading(false);
   }
 
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const counts = data?.counts || {};
+  const events = data?.events || [];
+
   return (
-    <div style={{ padding: "40px", color: "white" }}>
-      <h1 style={{ marginBottom: "20px" }}>📊 Try-On Analytics</h1>
-
-      {/* Stats */}
-      <div
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#f4f5f7",
+        color: "#111",
+        fontFamily: "Arial, sans-serif",
+        padding: "42px",
+      }}
+    >
+      <section
         style={{
-          display: "flex",
-          gap: "20px",
-          marginBottom: "20px",
+          maxWidth: "1100px",
+          margin: "0 auto",
         }}
       >
-        <StatBox label="Try Ons" value={data?.counts?.try_on_clicks || 0} />
-        <StatBox label="Saves" value={data?.counts?.save_for_later_clicks || 0} />
-        <StatBox label="Uploads" value={data?.counts?.photo_uploads || 0} />
-        <StatBox label="Previews" value={data?.counts?.previews_generated || 0} />
-      </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "30px",
+          }}
+        >
+          <div>
+            <h1 style={{ margin: 0, fontSize: "34px" }}>
+              Try-On Analytics
+            </h1>
+            <p style={{ marginTop: "8px", color: "#666" }}>
+              Live usage data from your virtual fitting room.
+            </p>
+          </div>
 
-      {/* Refresh */}
-      <button
-        onClick={fetchData}
-        style={{
-          padding: "10px 20px",
-          marginBottom: "30px",
-          background: "#333",
-          color: "white",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-        }}
-      >
-        Refresh
-      </button>
+          <button
+            onClick={loadData}
+            style={{
+              padding: "12px 18px",
+              borderRadius: "12px",
+              border: "none",
+              background: "#111",
+              color: "white",
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+          >
+            {loading ? "Refreshing..." : "Refresh"}
+          </button>
+        </div>
 
-      {/* Recent Activity */}
-      <h2 style={{ marginBottom: "10px" }}>Recent Activity</h2>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "18px",
+            marginBottom: "30px",
+          }}
+        >
+          <StatCard title="Try Ons" value={counts.try_on_clicks || 0} />
+          <StatCard title="Saves" value={counts.save_for_later_clicks || 0} />
+          <StatCard title="Uploads" value={counts.photo_uploads || 0} />
+          <StatCard title="Previews" value={counts.previews_generated || 0} />
+        </div>
 
-      <div
-        style={{
-          background: "#1a1a1a",
-          padding: "15px",
-          borderRadius: "10px",
-          minHeight: "120px",
-        }}
-      >
-        {data.events.length === 0 ? (
-          <p style={{ opacity: 0.6 }}>No activity yet...</p>
-        ) : (
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {data.events.map((e: any, i: number) => (
-              <li
-                key={i}
-                style={{
-                  padding: "10px",
-                  borderBottom: "1px solid #333",
-                }}
-              >
-                <div style={{ fontWeight: "bold" }}>
-                  {formatEvent(e.event)}
+        <div
+          style={{
+            background: "white",
+            borderRadius: "20px",
+            padding: "24px",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.07)",
+          }}
+        >
+          <h2 style={{ marginTop: 0, marginBottom: "16px" }}>
+            Recent Activity
+          </h2>
+
+          {events.length === 0 ? (
+            <div
+              style={{
+                padding: "35px",
+                background: "#f7f7f7",
+                borderRadius: "16px",
+                color: "#777",
+                textAlign: "center",
+              }}
+            >
+              No activity yet.
+            </div>
+          ) : (
+            <div style={{ display: "grid", gap: "10px" }}>
+              {events.map((event: any, index: number) => (
+                <div
+                  key={index}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "15px",
+                    border: "1px solid #eee",
+                    borderRadius: "14px",
+                    background: "#fafafa",
+                  }}
+                >
+                  <div>
+                    <div style={{ fontWeight: 800 }}>
+                      {formatEvent(event.event)}
+                    </div>
+                    <div style={{ color: "#666", fontSize: "14px", marginTop: "4px" }}>
+                      {event.product || "No product"} · {event.brand || "No brand"}
+                    </div>
+                  </div>
+
+                  <div style={{ color: "#999", fontSize: "13px" }}>
+                    {formatDate(event.created_at || event.createdAt)}
+                  </div>
                 </div>
-                <div style={{ fontSize: "12px", opacity: 0.7 }}>
-                  {e.product || "No product"}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
   );
 }
 
-/* ---------- Components ---------- */
-
-function StatBox({ label, value }: any) {
+function StatCard({ title, value }: { title: string; value: number }) {
   return (
     <div
       style={{
-        background: "#1a1a1a",
-        padding: "20px",
-        borderRadius: "10px",
-        minWidth: "120px",
-        textAlign: "center",
+        background: "white",
+        borderRadius: "20px",
+        padding: "24px",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.07)",
       }}
     >
-      <div style={{ fontSize: "20px", fontWeight: "bold" }}>{value}</div>
-      <div style={{ opacity: 0.6 }}>{label}</div>
+      <div style={{ color: "#777", fontSize: "14px", marginBottom: "10px" }}>
+        {title}
+      </div>
+      <div style={{ fontSize: "38px", fontWeight: 900 }}>
+        {value}
+      </div>
     </div>
   );
 }
-
-/* ---------- Helpers ---------- */
 
 function formatEvent(event: string) {
   switch (event) {
@@ -133,7 +177,17 @@ function formatEvent(event: string) {
       return "Uploaded Photo";
     case "previews_generated":
       return "Generated Preview";
+    case "camera_opens":
+      return "Opened Camera";
+    case "photos_taken":
+      return "Took Photo";
     default:
       return event;
   }
+}
+
+function formatDate(date: string) {
+  if (!date) return "";
+
+  return new Date(date).toLocaleString();
 }
