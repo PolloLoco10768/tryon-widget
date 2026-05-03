@@ -3,11 +3,8 @@
 <head>
   <title>Brand Install Mode Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -53,7 +50,7 @@
       margin: 40px auto;
       padding: 0 30px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 24px;
     }
 
@@ -79,7 +76,7 @@
 
     .product img {
       width: 100%;
-      height: 300px;
+      height: 280px;
       object-fit: cover;
       display: block;
       border-radius: 18px;
@@ -110,12 +107,13 @@
 
     .product h3 {
       margin: 16px 0 6px;
-      font-size: 20px;
+      font-size: 18px;
     }
 
     .product p {
       color: #666;
       margin: 0 0 10px;
+      font-size: 14px;
     }
 
     .price {
@@ -150,28 +148,18 @@
       color: #111;
     }
 
-    .try-btn:hover {
-      background: #333;
+    @media (max-width: 1000px) {
+      .catalog { grid-template-columns: repeat(2, 1fr); }
     }
 
-    .save-btn:hover {
-      background: #ddd;
-    }
-
-    @media (max-width: 800px) {
-      .catalog {
-        grid-template-columns: 1fr;
-      }
-
-      .tryon-overlay {
-        opacity: 1;
-      }
+    @media (max-width: 650px) {
+      .catalog { grid-template-columns: 1fr; }
+      .tryon-overlay { opacity: 1; }
     }
   </style>
 </head>
 
 <body>
-
   <header>
     <div class="brand">NOVA STREET</div>
     <div>Cart · Checkout</div>
@@ -187,108 +175,56 @@
     <div class="product">
       <div class="image-wrap">
         <img src="/shirt1.png" />
-
-        <button
-          class="tryon-overlay"
-          data-tryon-action="try"
-          data-product-name="Black Essential Hoodie"
-          data-product-image="/shirt1.png">
-          Try On
-        </button>
+        <button class="tryon-overlay" data-tryon-action="try" data-product-name="Black Essential Hoodie" data-product-image="/shirt1.png">Try On</button>
       </div>
-
       <h3>Black Essential Hoodie</h3>
       <p>Heavyweight cotton blend with relaxed fit.</p>
       <p class="price">$49.99</p>
-
       <div class="actions">
-        <button
-          class="try-btn"
-          data-tryon-action="try"
-          data-product-name="Black Essential Hoodie"
-          data-product-image="/shirt1.png">
-          Try It On
-        </button>
-
-        <button
-          class="save-btn"
-          data-tryon-action="save"
-          data-product-name="Black Essential Hoodie"
-          data-product-image="/shirt1.png">
-          Save for Later
-        </button>
+        <button class="try-btn" data-tryon-action="try" data-product-name="Black Essential Hoodie" data-product-image="/shirt1.png">Try It On</button>
+        <button class="save-btn" data-tryon-action="save" data-product-name="Black Essential Hoodie" data-product-image="/shirt1.png">Save for Later</button>
       </div>
     </div>
 
     <div class="product">
       <div class="image-wrap">
         <img src="/shirt2.png" />
-
-        <button
-          class="tryon-overlay"
-          data-tryon-action="try"
-          data-product-name="Graphic Oversized Tee"
-          data-product-image="/shirt2.png">
-          Try On
-        </button>
+        <button class="tryon-overlay" data-tryon-action="try" data-product-name="Graphic Oversized Tee" data-product-image="/shirt2.png">Try On</button>
       </div>
-
       <h3>Graphic Oversized Tee</h3>
       <p>Soft oversized tee designed for everyday wear.</p>
       <p class="price">$39.99</p>
-
       <div class="actions">
-        <button
-          class="try-btn"
-          data-tryon-action="try"
-          data-product-name="Graphic Oversized Tee"
-          data-product-image="/shirt2.png">
-          Try It On
-        </button>
-
-        <button
-          class="save-btn"
-          data-tryon-action="save"
-          data-product-name="Graphic Oversized Tee"
-          data-product-image="/shirt2.png">
-          Save for Later
-        </button>
+        <button class="try-btn" data-tryon-action="try" data-product-name="Graphic Oversized Tee" data-product-image="/shirt2.png">Try It On</button>
+        <button class="save-btn" data-tryon-action="save" data-product-name="Graphic Oversized Tee" data-product-image="/shirt2.png">Save for Later</button>
       </div>
     </div>
 
     <div class="product">
       <div class="image-wrap">
         <img src="/shirt3.png" />
-
-        <button
-          class="tryon-overlay"
-          data-tryon-action="try"
-          data-product-name="Premium Zip Hoodie"
-          data-product-image="/shirt3.png">
-          Try On
-        </button>
+        <button class="tryon-overlay" data-tryon-action="try" data-product-name="Premium Zip Hoodie" data-product-image="/shirt3.png">Try On</button>
       </div>
-
       <h3>Premium Zip Hoodie</h3>
       <p>Clean zip hoodie with elevated details and fit.</p>
       <p class="price">$69.99</p>
-
       <div class="actions">
-        <button
-          class="try-btn"
-          data-tryon-action="try"
-          data-product-name="Premium Zip Hoodie"
-          data-product-image="/shirt3.png">
-          Try It On
-        </button>
+        <button class="try-btn" data-tryon-action="try" data-product-name="Premium Zip Hoodie" data-product-image="/shirt3.png">Try It On</button>
+        <button class="save-btn" data-tryon-action="save" data-product-name="Premium Zip Hoodie" data-product-image="/shirt3.png">Save for Later</button>
+      </div>
+    </div>
 
-        <button
-          class="save-btn"
-          data-tryon-action="save"
-          data-product-name="Premium Zip Hoodie"
-          data-product-image="/shirt3.png">
-          Save for Later
-        </button>
+    <div class="product">
+      <div class="image-wrap">
+        <img src="/shirt4.png" />
+        <button class="tryon-overlay" data-tryon-action="try" data-product-name="Streetwear Drop Tee" data-product-image="/shirt4.png">Try On</button>
+      </div>
+      <h3>Streetwear Drop Tee</h3>
+      <p>New drop with clean fit and premium feel.</p>
+      <p class="price">$44.99</p>
+      <div class="actions">
+        <button class="try-btn" data-tryon-action="try" data-product-name="Streetwear Drop Tee" data-product-image="/shirt4.png">Try It On</button>
+        <button class="save-btn" data-tryon-action="save" data-product-name="Streetwear Drop Tee" data-product-image="/shirt4.png">Save for Later</button>
       </div>
     </div>
 
@@ -301,6 +237,5 @@
     data-primary-color="#111"
     data-launcher-text="Try-On Closet">
   </script>
-
 </body>
 </html>
