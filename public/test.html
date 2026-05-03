@@ -3,6 +3,7 @@
 <head>
   <title>Brand Install Mode Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     * { box-sizing: border-box; }
 
@@ -25,7 +26,6 @@
     .brand {
       font-weight: 800;
       font-size: 20px;
-      letter-spacing: 0.04em;
     }
 
     .hero {
@@ -39,12 +39,6 @@
       margin: 0;
     }
 
-    .hero p {
-      color: #555;
-      font-size: 17px;
-      margin-top: 12px;
-    }
-
     .catalog {
       max-width: 1150px;
       margin: 40px auto;
@@ -56,49 +50,39 @@
 
     .product {
       background: white;
-      border-radius: 22px;
-      padding: 18px;
+      border-radius: 20px;
+      padding: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      transition: 0.25s ease;
-    }
-
-    .product:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 42px rgba(0,0,0,0.13);
     }
 
     .image-wrap {
       position: relative;
-      border-radius: 18px;
+      border-radius: 16px;
       overflow: hidden;
       background: #eee;
     }
 
     .product img {
       width: 100%;
-      height: 280px;
+      height: 260px;
       object-fit: cover;
       display: block;
-      border-radius: 18px;
-      background: #eee;
     }
 
     .tryon-overlay {
       position: absolute;
-      bottom: 15px;
+      bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
-      width: auto;
-      padding: 11px 18px;
+      padding: 10px 16px;
       border-radius: 999px;
       border: none;
-      background: rgba(0,0,0,0.88);
+      background: rgba(0,0,0,0.9);
       color: white;
-      font-weight: 800;
+      font-weight: 700;
       cursor: pointer;
       opacity: 0;
-      transition: 0.25s ease;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      transition: 0.2s;
     }
 
     .image-wrap:hover .tryon-overlay {
@@ -106,35 +90,24 @@
     }
 
     .product h3 {
-      margin: 16px 0 6px;
-      font-size: 18px;
-    }
-
-    .product p {
-      color: #666;
-      margin: 0 0 10px;
-      font-size: 14px;
+      margin: 12px 0 4px;
     }
 
     .price {
-      font-weight: 800;
-      font-size: 18px;
-      color: #111;
+      font-weight: 700;
     }
 
     .actions {
-      margin-top: 14px;
+      margin-top: 10px;
       display: grid;
-      gap: 9px;
+      gap: 8px;
     }
 
     button {
-      width: 100%;
-      padding: 13px;
+      padding: 12px;
       border: none;
-      border-radius: 14px;
+      border-radius: 12px;
       cursor: pointer;
-      font-size: 15px;
       font-weight: 700;
     }
 
@@ -145,97 +118,159 @@
 
     .save-btn {
       background: #eee;
-      color: #111;
-    }
-
-    @media (max-width: 1000px) {
-      .catalog { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 650px) {
-      .catalog { grid-template-columns: 1fr; }
-      .tryon-overlay { opacity: 1; }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="brand">NOVA STREET</div>
-    <div>Cart · Checkout</div>
-  </header>
 
-  <section class="hero">
-    <h1>Try Before You Buy</h1>
-    <p>This page simulates how a fashion brand would install your widget.</p>
-  </section>
+<header>
+  <div class="brand">NOVA STREET</div>
+  <div>Cart</div>
+</header>
 
-  <main class="catalog">
+<section class="hero">
+  <h1>Try Before You Buy</h1>
+</section>
 
-    <div class="product">
-      <div class="image-wrap">
-        <img src="/shirt1.png" />
-        <button class="tryon-overlay" data-tryon-action="try" data-product-name="Black Essential Hoodie" data-product-image="/shirt1.png">Try On</button>
-      </div>
-      <h3>Black Essential Hoodie</h3>
-      <p>Heavyweight cotton blend with relaxed fit.</p>
-      <p class="price">$49.99</p>
-      <div class="actions">
-        <button class="try-btn" data-tryon-action="try" data-product-name="Black Essential Hoodie" data-product-image="/shirt1.png">Try It On</button>
-        <button class="save-btn" data-tryon-action="save" data-product-name="Black Essential Hoodie" data-product-image="/shirt1.png">Save for Later</button>
-      </div>
+<main class="catalog">
+
+  <!-- Shirt 1 -->
+  <div class="product">
+    <div class="image-wrap">
+      <img src="/shirt1.png">
+      <button class="tryon-overlay"
+        data-tryon-action="try"
+        data-product-name="Black Hoodie"
+        data-product-image="/shirt1.png">
+        Try On
+      </button>
     </div>
 
-    <div class="product">
-      <div class="image-wrap">
-        <img src="/shirt2.png" />
-        <button class="tryon-overlay" data-tryon-action="try" data-product-name="Graphic Oversized Tee" data-product-image="/shirt2.png">Try On</button>
-      </div>
-      <h3>Graphic Oversized Tee</h3>
-      <p>Soft oversized tee designed for everyday wear.</p>
-      <p class="price">$39.99</p>
-      <div class="actions">
-        <button class="try-btn" data-tryon-action="try" data-product-name="Graphic Oversized Tee" data-product-image="/shirt2.png">Try It On</button>
-        <button class="save-btn" data-tryon-action="save" data-product-name="Graphic Oversized Tee" data-product-image="/shirt2.png">Save for Later</button>
-      </div>
+    <h3>Black Hoodie</h3>
+    <p class="price">$49.99</p>
+
+    <div class="actions">
+      <button class="try-btn"
+        data-tryon-action="try"
+        data-product-name="Black Hoodie"
+        data-product-image="/shirt1.png">
+        Try It On
+      </button>
+
+      <button class="save-btn"
+        data-tryon-action="save"
+        data-product-name="Black Hoodie"
+        data-product-image="/shirt1.png">
+        Save for Later
+      </button>
+    </div>
+  </div>
+
+  <!-- Shirt 2 -->
+  <div class="product">
+    <div class="image-wrap">
+      <img src="/shirt2.png">
+      <button class="tryon-overlay"
+        data-tryon-action="try"
+        data-product-name="Graphic Tee"
+        data-product-image="/shirt2.png">
+        Try On
+      </button>
     </div>
 
-    <div class="product">
-      <div class="image-wrap">
-        <img src="/shirt3.png" />
-        <button class="tryon-overlay" data-tryon-action="try" data-product-name="Premium Zip Hoodie" data-product-image="/shirt3.png">Try On</button>
-      </div>
-      <h3>Premium Zip Hoodie</h3>
-      <p>Clean zip hoodie with elevated details and fit.</p>
-      <p class="price">$69.99</p>
-      <div class="actions">
-        <button class="try-btn" data-tryon-action="try" data-product-name="Premium Zip Hoodie" data-product-image="/shirt3.png">Try It On</button>
-        <button class="save-btn" data-tryon-action="save" data-product-name="Premium Zip Hoodie" data-product-image="/shirt3.png">Save for Later</button>
-      </div>
+    <h3>Graphic Tee</h3>
+    <p class="price">$39.99</p>
+
+    <div class="actions">
+      <button class="try-btn"
+        data-tryon-action="try"
+        data-product-name="Graphic Tee"
+        data-product-image="/shirt2.png">
+        Try It On
+      </button>
+
+      <button class="save-btn"
+        data-tryon-action="save"
+        data-product-name="Graphic Tee"
+        data-product-image="/shirt2.png">
+        Save for Later
+      </button>
+    </div>
+  </div>
+
+  <!-- Shirt 3 -->
+  <div class="product">
+    <div class="image-wrap">
+      <img src="/shirt3.png">
+      <button class="tryon-overlay"
+        data-tryon-action="try"
+        data-product-name="Zip Hoodie"
+        data-product-image="/shirt3.png">
+        Try On
+      </button>
     </div>
 
-    <div class="product">
-      <div class="image-wrap">
-        <img src="/shirt4.png" />
-        <button class="tryon-overlay" data-tryon-action="try" data-product-name="Streetwear Drop Tee" data-product-image="/shirt4.png">Try On</button>
-      </div>
-      <h3>Streetwear Drop Tee</h3>
-      <p>New drop with clean fit and premium feel.</p>
-      <p class="price">$44.99</p>
-      <div class="actions">
-        <button class="try-btn" data-tryon-action="try" data-product-name="Streetwear Drop Tee" data-product-image="/shirt4.png">Try It On</button>
-        <button class="save-btn" data-tryon-action="save" data-product-name="Streetwear Drop Tee" data-product-image="/shirt4.png">Save for Later</button>
-      </div>
+    <h3>Zip Hoodie</h3>
+    <p class="price">$69.99</p>
+
+    <div class="actions">
+      <button class="try-btn"
+        data-tryon-action="try"
+        data-product-name="Zip Hoodie"
+        data-product-image="/shirt3.png">
+        Try It On
+      </button>
+
+      <button class="save-btn"
+        data-tryon-action="save"
+        data-product-name="Zip Hoodie"
+        data-product-image="/shirt3.png">
+        Save for Later
+      </button>
+    </div>
+  </div>
+
+  <!-- Shirt 4 (WHITE SHIRT) -->
+  <div class="product">
+    <div class="image-wrap">
+      <img src="/shirt4.png">
+      <button class="tryon-overlay"
+        data-tryon-action="try"
+        data-product-name="White Tee"
+        data-product-image="/shirt4.png">
+        Try On
+      </button>
     </div>
 
-  </main>
+    <h3>White Tee</h3>
+    <p class="price">$44.99</p>
 
-  <script
-    src="/widget.js"
-    data-brand-name="NOVA STREET"
-    data-widget-title="Virtual Fitting Room"
-    data-primary-color="#111"
-    data-launcher-text="Try-On Closet">
-  </script>
+    <div class="actions">
+      <button class="try-btn"
+        data-tryon-action="try"
+        data-product-name="White Tee"
+        data-product-image="/shirt4.png">
+        Try It On
+      </button>
+
+      <button class="save-btn"
+        data-tryon-action="save"
+        data-product-name="White Tee"
+        data-product-image="/shirt4.png">
+        Save for Later
+      </button>
+    </div>
+  </div>
+
+</main>
+
+<script src="/widget.js"
+  data-brand-name="NOVA STREET"
+  data-widget-title="Virtual Fitting Room"
+  data-primary-color="#111"
+  data-launcher-text="Try-On Closet">
+</script>
+
 </body>
 </html>
